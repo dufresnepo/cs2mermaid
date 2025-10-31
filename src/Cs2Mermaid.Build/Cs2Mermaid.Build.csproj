@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- targets-only package -->
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>true</IsPackable>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <PackageId>Cs2Mermaid.Build</PackageId>
+    <Version>1.1.0</Version>
+    <Authors>Uniflow Technologies</Authors>
+    <Description>Build-transitive package to generate Mermaid diagrams during dotnet build.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://example.com/your/repo</RepositoryUrl>
+    <PackageType>DotnetPlatform</PackageType>
+    <NoWarn>NU5128;NU5129</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- ship the MSBuild target into buildTransitive/ -->
+    <None Include="buildTransitive\cs2mermaid.targets" Pack="true" PackagePath="buildTransitive\cs2mermaid.targets" />
+    <!-- optional README for NuGet page -->
+    <None Include="README.nupkg.md" Pack="true" PackagePath="README.md" Condition="Exists('README.nupkg.md')" />
+  </ItemGroup>
+</Project>
