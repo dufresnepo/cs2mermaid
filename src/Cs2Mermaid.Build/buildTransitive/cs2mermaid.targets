@@ -1,0 +1,36 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- On by default; override globally or per project -->
+  <PropertyGroup>
+    <Cs2MermaidEnabled Condition="'$(Cs2MermaidEnabled)'==''">true</Cs2MermaidEnabled>
+
+    <!-- Default command: use local tool if present -->
+    <Cs2MermaidCommand Condition="'$(Cs2MermaidCommand)'==''">dotnet tool run cs2mermaid</Cs2MermaidCommand>
+
+    <!-- Output path: next to the project, TFM-suffixed to avoid multi-TFM races -->
+    <Cs2MermaidOutputFile Condition="'$(Cs2MermaidOutputFile)'==''">
+      $(MSBuildProjectDirectory)\$(MSBuildProjectName).$(TargetFramework).mmd
+    </Cs2MermaidOutputFile>
+
+    <!-- Typical defaults; tweak via Directory.Build.props -->
+    <Cs2MermaidArgs Condition="'$(Cs2MermaidArgs)'==''">--direction LR --min-access public</Cs2MermaidArgs>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(Cs2MermaidExcludeMmdFromProject)'!='false'">
+    <None Remove="$(MSBuildProjectDirectory)\$(MSBuildProjectName).*.mmd" />
+  </ItemGroup>
+
+  <Target Name="GenerateMermaidDiagram"
+          AfterTargets="CoreCompile"
+          Condition="'$(Cs2MermaidEnabled)'=='true' and '$(DesignTimeBuild)'!='true'">
+
+    <Exec
+      WorkingDirectory="$(MSBuildProjectDirectory)"
+      Command='$(Cs2MermaidCommand) emit "$(MSBuildProjectFullPath)" --out "$(Cs2MermaidOutputFile)" $(Cs2MermaidArgs)'
+      IgnoreExitCode="false"
+      StandardOutputImportance="Low" />
+
+    <Message Importance="Low" Text="cs2mermaid attempted update $(Cs2MermaidOutputFile) (write-if-changed built-in)"/>
+  </Target>
+
+</Project>

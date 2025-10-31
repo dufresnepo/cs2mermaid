@@ -1,0 +1,13 @@
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+.nupkgs/
+*.nupkg
+*.tmp
+*.lock.json
+/.vs/
+**/Properties/launchSettings.json
