@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <!-- targets-only package -->
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <IsPackable>true</IsPackable>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <PackageId>Cs2Mermaid.Build</PackageId>
@@ -9,7 +9,10 @@
     <Authors>Uniflow Technologies</Authors>
     <Description>Build-transitive package to generate Mermaid diagrams during dotnet build.</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://example.com/your/repo</RepositoryUrl>
+    <RepositoryUrl>https://github.com/uniflow-technologies/cs2mermaid</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/uniflow-technologies/cs2mermaid</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageTags>mermaid;class-diagram;roslyn;csharp;build-tools</PackageTags>
     <PackageType>DotnetPlatform</PackageType>
     <NoWarn>NU5128;NU5129</NoWarn>
   </PropertyGroup>

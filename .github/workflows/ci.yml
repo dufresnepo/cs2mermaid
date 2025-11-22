@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+          8.0.x
+          9.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build -c Release --no-restore
+    
+    - name: Test
+      run: dotnet test -c Release --no-build --verbosity normal
+    
+    - name: Pack (dry run)
+      run: |
+        dotnet pack src/Cs2Mermaid.Build/Cs2Mermaid.Build.csproj -c Release --no-build -o ./artifacts
+        dotnet pack src/Cs2Mermaid.Core/Cs2Mermaid.Core.csproj -c Release --no-build -o ./artifacts
+        dotnet pack src/Cs2Mermaid.Cli/Cs2Mermaid.Cli.csproj -c Release --no-build -o ./artifacts
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./artifacts/*.nupkg
+
